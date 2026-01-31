@@ -175,6 +175,83 @@ header h1 {
     100% { transform: rotate(360deg); }
 }
 
+/* Home Screen */
+.home-screen {
+    display: none;
+    animation: slideUp 0.5s ease;
+}
+
+.home-screen.show {
+    display: block;
+}
+
+.home-content {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.home-icon {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.home-title {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.home-description {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.home-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.feature-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    font-size: 1.5rem;
+}
+
+.feature-text {
+    color: #555;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
 /* Weather Card */
 .weather-card {
     display: none;
@@ -256,192 +333,4 @@ header h1 {
     color: #555;
     text-transform: capitalize;
     font-weight: 500;
-}
-
-/* Weather Details Grid */
-.weather-details {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.detail-item {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: all 0.3s ease;
-}
-
-.detail-item:hover {
-    background: #e9ecef;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.detail-icon {
-    font-size: 2rem;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    border-radius: 12px;
-}
-
-.detail-info {
-    flex: 1;
-}
-
-.detail-label {
-    font-size: 0.85rem;
-    color: #666;
-    margin-bottom: 4px;
-}
-
-.detail-value {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #333;
-}
-
-/* Timestamp */
-.timestamp {
-    text-align: center;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 15px;
-    margin-bottom: 25px;
-}
-
-.timestamp p {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-/* Quick Cities Section */
-.quick-cities {
-    margin-bottom: 25px;
-}
-
-.quick-cities-label {
-    color: #666;
-    font-size: 0.95rem;
-    margin-bottom: 12px;
-    text-align: center;
-    font-weight: 500;
-}
-
-.city-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-}
-
-.city-btn {
-    padding: 8px 16px;
-    background: white;
-    border: 2px solid #e0e0e0;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: #555;
-    font-weight: 500;
-}
-
-.city-btn:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border-color: transparent;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding-top: 20px;
-    border-top: 2px solid #e0e0e0;
-}
-
-footer p {
-    color: #666;
-    font-size: 0.85rem;
-    margin-bottom: 5px;
-}
-
-.api-credit {
-    color: #999;
-    font-size: 0.75rem;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-    .weather-app {
-        padding: 30px 20px;
-        border-radius: 25px;
-    }
-
-    header h1 {
-        font-size: 2rem;
-    }
-
-    .search-box {
-        flex-direction: column;
-    }
-
-    #searchBtn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .temperature {
-        font-size: 3rem;
-    }
-
-    .temp-unit {
-        font-size: 1.5rem;
-    }
-
-    .weather-details {
-        grid-template-columns: 1fr;
-    }
-
-    .city-buttons {
-        gap: 6px;
-    }
-
-    .city-btn {
-        padding: 6px 12px;
-        font-size: 0.85rem;
-    }
-}
-
-@media (max-width: 400px) {
-    .weather-app {
-        padding: 25px 15px;
-    }
-
-    header h1 {
-        font-size: 1.8rem;
-    }
-
-    .city-name {
-        font-size: 1.6rem;
-    }
-
-    .weather-icon {
-        width: 100px;
-        height: 100px;
-    }
-
-    .temperature {
-        font-size: 2.5rem;
-    }
 }
