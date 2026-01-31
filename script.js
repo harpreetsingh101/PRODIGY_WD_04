@@ -1,5 +1,6 @@
 // OpenWeatherMap API Configuration
-const API_KEY = 'bd5e378503939ddaee76f12ad7a97608'; // Free API key for demo purposes
+// IMPORTANT: Get your own free API key from https://openweathermap.org/api
+const API_KEY = 'f56f24967aaf51182d1d4f79f0e37186'; // Updated working API key
 const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
 
 // DOM Elements
@@ -28,11 +29,13 @@ const cityButtons = document.querySelectorAll('.city-btn');
 
 // Initialize app with default city
 window.addEventListener('DOMContentLoaded', () => {
+    console.log('App initialized');
     getWeatherData('Delhi');
 });
 
 // Search button click event
 searchBtn.addEventListener('click', () => {
+    console.log('Search button clicked');
     const city = cityInput.value.trim();
     if (city) {
         getWeatherData(city);
@@ -44,6 +47,7 @@ searchBtn.addEventListener('click', () => {
 // Enter key press event
 cityInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
+        console.log('Enter key pressed');
         const city = cityInput.value.trim();
         if (city) {
             getWeatherData(city);
@@ -57,6 +61,7 @@ cityInput.addEventListener('keypress', (e) => {
 cityButtons.forEach(button => {
     button.addEventListener('click', () => {
         const city = button.getAttribute('data-city');
+        console.log('Quick city clicked:', city);
         cityInput.value = city;
         getWeatherData(city);
     });
@@ -64,27 +69,37 @@ cityButtons.forEach(button => {
 
 // Main function to fetch weather data
 async function getWeatherData(city) {
+    console.log('Fetching weather for:', city);
+    
     try {
         // Show loader and hide error/weather card
         showLoader();
         hideError();
         hideWeatherCard();
 
+        // Construct API URL
+        const url = `${API_URL}?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`;
+        console.log('API URL:', url);
+
         // Fetch data from API
-        const response = await fetch(`${API_URL}?q=${city}&appid=${API_KEY}`);
+        const response = await fetch(url);
+        console.log('Response status:', response.status);
         
         // Check if response is ok
         if (!response.ok) {
             if (response.status === 404) {
                 throw new Error('City not found. Please check the spelling and try again.');
             } else if (response.status === 401) {
-                throw new Error('API key error. Please check the configuration.');
+                throw new Error('API key error. Please get a new key from openweathermap.org');
+            } else if (response.status === 429) {
+                throw new Error('Too many requests. Please wait a moment and try again.');
             } else {
-                throw new Error('Unable to fetch weather data. Please try again later.');
+                throw new Error(`Error ${response.status}: Unable to fetch weather data.`);
             }
         }
 
         const data = await response.json();
+        console.log('Weather data received:', data);
         
         // Hide loader and display weather
         hideLoader();
@@ -99,16 +114,18 @@ async function getWeatherData(city) {
 
 // Display weather data on UI
 function displayWeatherData(data) {
+    console.log('Displaying weather data');
+    
     // City and Country
     cityName.textContent = data.name;
     country.textContent = data.sys.country;
 
-    // Temperature (Convert from Kelvin to Celsius)
-    const temperature = Math.round(data.main.temp - 273.15);
+    // Temperature (Already in Celsius because we used units=metric)
+    const temperature = Math.round(data.main.temp);
     temp.textContent = temperature;
 
     // Feels Like Temperature
-    const feelsLikeTemp = Math.round(data.main.feels_like - 273.15);
+    const feelsLikeTemp = Math.round(data.main.feels_like);
     feelsLike.textContent = `${feelsLikeTemp}°C`;
 
     // Weather Description and Icon
@@ -219,33 +236,3 @@ function showError(message) {
 function hideError() {
     errorMessage.classList.remove('show');
 }
-
-// Additional utility: Get user's location and show weather (optional enhancement)
-function getUserLocationWeather() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                getWeatherByCoordinates(lat, lon);
-            },
-            (error) => {
-                console.log('Location access denied:', error);
-                // Fallback to default city
-                getWeatherData('Delhi');
-            }
-        );
-    } else {
-        console.log('Geolocation not supported');
-        getWeatherData('Delhi');
-    }
-}
-
-// Fetch weather by coordinates
-async function getWeatherByCoordinates(lat, lon) {
-    try {
-        showLoader();
-        hideError();
-        hideWeatherCard();
-
-        const response = await fetch(`${API_URL}?l
