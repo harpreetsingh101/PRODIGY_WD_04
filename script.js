@@ -1,8 +1,8 @@
-// API Configuration - Using a working free API key
+// API Configuration
 const API_KEY = '8ac5c4d57ba6a4b3dfcf622700447b1e';
 const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
 
-// Global function for quick search buttons (called from HTML onclick)
+// Global function for quick search buttons
 function quickSearch(city) {
     console.log('Quick search clicked:', city);
     document.getElementById('cityInput').value = city;
@@ -26,24 +26,19 @@ function searchWeather() {
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Page loaded - initializing weather app');
+    console.log('Page loaded - Weather App Ready');
     
     // Get DOM elements
     const searchBtn = document.getElementById('searchBtn');
     const cityInput = document.getElementById('cityInput');
     
     // Check if elements exist
-    if (!searchBtn) {
-        console.error('Search button not found!');
+    if (!searchBtn || !cityInput) {
+        console.error('Required elements not found!');
         return;
     }
     
-    if (!cityInput) {
-        console.error('City input not found!');
-        return;
-    }
-    
-    console.log('Elements found successfully');
+    console.log('Elements found - Event listeners attached');
     
     // Add click event to search button
     searchBtn.addEventListener('click', function(e) {
@@ -61,9 +56,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Load default city
-    console.log('Loading default city: Delhi');
-    getWeatherData('Delhi');
+    // DON'T auto-load any city - just show home screen
+    console.log('Home screen is ready. Enter a city to search!');
 });
 
 // Fetch weather data from API
@@ -73,12 +67,14 @@ async function getWeatherData(city) {
     const loader = document.getElementById('loader');
     const errorMessage = document.getElementById('errorMessage');
     const weatherCard = document.getElementById('weatherCard');
+    const homeScreen = document.getElementById('homeScreen');
     
     try {
-        // Show loader
+        // Show loader, hide everything else
         if (loader) loader.classList.add('show');
         if (errorMessage) errorMessage.classList.remove('show');
         if (weatherCard) weatherCard.classList.remove('show');
+        if (homeScreen) homeScreen.classList.remove('show');
         
         // Build API URL
         const url = `${API_URL}?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`;
@@ -113,6 +109,7 @@ async function getWeatherData(city) {
     } catch (error) {
         console.error('Error in getWeatherData:', error);
         if (loader) loader.classList.remove('show');
+        if (homeScreen) homeScreen.classList.add('show');
         showError(error.message);
     }
 }
@@ -150,7 +147,7 @@ function displayWeatherData(data) {
         // Change background based on weather
         updateBackground(data.weather[0].main);
         
-        // Show weather card
+        // Show weather card (hide home screen)
         document.getElementById('weatherCard').classList.add('show');
         
         console.log('Weather data displayed successfully');
