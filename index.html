@@ -1,1 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Real-time Weather App - Check current weather conditions for any city worldwide">
+    <title>Weather App | Prodigy InfoTech</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="weather-app">
+            <!-- Header -->
+            <header>
+                <h1>🌦️ Weather App</h1>
+                <p class="subtitle">Get real-time weather updates for any city</p>
+            </header>
 
+            <!-- Search Section -->
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="cityInput" 
+                    placeholder="Enter city name (e.g., London, Tokyo, New York)"
+                    autocomplete="off"
+                >
+                <button id="searchBtn">
+                    <span class="btn-text">Search</span>
+                    <span class="btn-icon">🔍</span>
+                </button>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="error-message"></div>
+
+            <!-- Loader -->
+            <div id="loader" class="loader"></div>
+
+            <!-- Weather Display Card -->
+            <div id="weatherCard" class="weather-card">
+                <!-- Location Info -->
+                <div class="location-info">
+                    <h2 id="cityName" class="city-name"></h2>
+                    <p id="country" class="country"></p>
+                </div>
+
+                <!-- Weather Icon & Temperature -->
+                <div class="weather-main">
+                    <img id="weatherIcon" class="weather-icon" src="" alt="Weather icon">
+                    <div class="temperature">
+                        <span id="temp" class="temp-value"></span>
+                        <span class="temp-unit">°C</span>
+                    </div>
+                    <p id="weatherDescription" class="weather-description"></p>
+                </div>
+
+                <!-- Additional Weather Details -->
+                <div class="weather-details">
+                    <div class="detail-item">
+                        <div class="detail-icon">💧</div>
+                        <div class="detail-info">
+                            <p class="detail-label">Humidity</p>
+                            <p id="humidity" class="detail-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-icon">🌬️</div>
+                        <div class="detail-info">
+                            <p class="detail-label">Wind Speed</p>
+                            <p id="windSpeed" class="detail-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-icon">🌡️</div>
+                        <div class="detail-info">
+                            <p class="detail-label">Feels Like</p>
+                            <p id="feelsLike" class="detail-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-icon">📊</div>
+                        <div class="detail-info">
+                            <p class="detail-label">Pressure</p>
+                            <p id="pressure" class="detail-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-icon">👁️</div>
+                        <div class="detail-info">
+                            <p class="detail-label">Visibility</p>
+                            <p id="visibility" class="detail-value"></p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-icon">☁️</div>
+                        <div class="detail-info">
+                            <p class="detail-label">Cloudiness</p>
+                            <p id="cloudiness" class="detail-value"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timestamp -->
+                <div class="timestamp">
+                    <p id="lastUpdated"></p>
+                </div>
+            </div>
+
+            <!-- Quick City Buttons -->
+            <div class="quick-cities">
+                <p class="quick-cities-label">Quick Search:</p>
+                <div class="city-buttons">
+                    <button class="city-btn" data-city="Delhi">Delhi</button>
+                    <button class="city-btn" data-city="London">London</button>
+                    <button class="city-btn" data-city="New York">New York</button>
+                    <button class="city-btn" data-city="Tokyo">Tokyo</button>
+                    <button class="city-btn" data-city="Paris">Paris</button>
+                    <button class="city-btn" data-city="Dubai">Dubai</button>
+                    <button class="city-btn" data-city="Sydney">Sydney</button>
+                    <button class="city-btn" data-city="Mumbai">Mumbai</button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <p>Prodigy InfoTech - Web Development Internship Task 04</p>
+                <p class="api-credit">Powered by OpenWeatherMap API</p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
