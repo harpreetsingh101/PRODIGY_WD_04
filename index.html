@@ -24,7 +24,7 @@
                     placeholder="Enter city name (e.g., London, Tokyo, New York)"
                     autocomplete="off"
                 >
-                <button id="searchBtn">
+                <button id="searchBtn" type="button">
                     <span class="btn-text">Search</span>
                     <span class="btn-icon">🔍</span>
                 </button>
@@ -115,14 +115,14 @@
             <div class="quick-cities">
                 <p class="quick-cities-label">Quick Search:</p>
                 <div class="city-buttons">
-                    <button class="city-btn" data-city="Delhi">Delhi</button>
-                    <button class="city-btn" data-city="London">London</button>
-                    <button class="city-btn" data-city="New York">New York</button>
-                    <button class="city-btn" data-city="Tokyo">Tokyo</button>
-                    <button class="city-btn" data-city="Paris">Paris</button>
-                    <button class="city-btn" data-city="Dubai">Dubai</button>
-                    <button class="city-btn" data-city="Sydney">Sydney</button>
-                    <button class="city-btn" data-city="Mumbai">Mumbai</button>
+                    <button class="city-btn" type="button" onclick="quickSearch('Delhi')">Delhi</button>
+                    <button class="city-btn" type="button" onclick="quickSearch('London')">London</button>
+                    <button class="city-btn" type="button" onclick="quickSearch('New York')">New York</button>
+                    <button class="city-btn" type="button" onclick="quickSearch('Tokyo')">Tokyo</button>
+                    <button class="city-btn" type="button" onclick="quickSearch('Paris')">Paris</button>
+                    <button class="city-btn" type="button" onclick="quickSearch('Dubai')">Dubai</button>
+                    <button class="city-btn" type="button" onclick="quickSearch('Sydney')">Sydney</button>
+                    <button class="city-btn" type="button" onclick="quickSearch('Mumbai')">Mumbai</button>
                 </div>
             </div>
 
