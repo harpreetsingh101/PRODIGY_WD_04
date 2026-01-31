@@ -36,7 +36,37 @@
             <!-- Loader -->
             <div id="loader" class="loader"></div>
 
-            <!-- Weather Display Card -->
+            <!-- Home Screen (Shows before any search) -->
+            <div id="homeScreen" class="home-screen show">
+                <div class="home-content">
+                    <div class="home-icon">🌍</div>
+                    <h2 class="home-title">Welcome to Weather App</h2>
+                    <p class="home-description">
+                        Enter any city name above to get real-time weather information including temperature, 
+                        humidity, wind speed, and more!
+                    </p>
+                    <div class="home-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">🌡️</span>
+                            <span class="feature-text">Real-time Temperature</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">💧</span>
+                            <span class="feature-text">Humidity Levels</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🌬️</span>
+                            <span class="feature-text">Wind Information</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">☁️</span>
+                            <span class="feature-text">Cloud Coverage</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather Display Card (Hidden initially) -->
             <div id="weatherCard" class="weather-card">
                 <!-- Location Info -->
                 <div class="location-info">
@@ -111,7 +141,7 @@
                 </div>
             </div>
 
-            <!-- Quick City Buttons -->
+            <!-- Quick City Buttons (Always visible) -->
             <div class="quick-cities">
                 <p class="quick-cities-label">Quick Search:</p>
                 <div class="city-buttons">
