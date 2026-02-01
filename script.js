@@ -26,19 +26,17 @@ function searchWeather() {
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Page loaded - Weather App Ready');
+    console.log('Weather App Ready');
     
-    // Get DOM elements
     const searchBtn = document.getElementById('searchBtn');
     const cityInput = document.getElementById('cityInput');
     
-    // Check if elements exist
     if (!searchBtn || !cityInput) {
         console.error('Required elements not found!');
         return;
     }
     
-    console.log('Elements found - Event listeners attached');
+    console.log('Elements initialized successfully');
     
     // Add click event to search button
     searchBtn.addEventListener('click', function(e) {
@@ -56,8 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // DON'T auto-load any city - just show home screen
-    console.log('Home screen is ready. Enter a city to search!');
+    // Show home screen on load
+    console.log('Home screen ready');
 });
 
 // Fetch weather data from API
@@ -78,7 +76,7 @@ async function getWeatherData(city) {
         
         // Build API URL
         const url = `${API_URL}?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`;
-        console.log('Fetching from:', url);
+        console.log('Fetching from API...');
         
         // Fetch data
         const response = await fetch(url);
@@ -103,7 +101,7 @@ async function getWeatherData(city) {
         // Hide loader
         if (loader) loader.classList.remove('show');
         
-        // Display data
+        // Display data with animation
         displayWeatherData(data);
         
     } catch (error) {
@@ -114,7 +112,7 @@ async function getWeatherData(city) {
     }
 }
 
-// Display weather data
+// Display weather data with animations
 function displayWeatherData(data) {
     console.log('Displaying weather data for:', data.name);
     
@@ -123,9 +121,13 @@ function displayWeatherData(data) {
         document.getElementById('cityName').textContent = data.name;
         document.getElementById('country').textContent = data.sys.country;
         
-        // Update temperature
-        document.getElementById('temp').textContent = Math.round(data.main.temp);
-        document.getElementById('feelsLike').textContent = `${Math.round(data.main.feels_like)}°C`;
+        // Update temperature with animation
+        const tempValue = Math.round(data.main.temp);
+        animateNumber('temp', 0, tempValue, 1000);
+        
+        // Update feels like
+        const feelsLikeTemp = Math.round(data.main.feels_like);
+        document.getElementById('feelsLike').textContent = `${feelsLikeTemp}°C`;
         
         // Update weather description and icon
         document.getElementById('weatherDescription').textContent = data.weather[0].description;
@@ -133,21 +135,46 @@ function displayWeatherData(data) {
         weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
         weatherIcon.alt = data.weather[0].description;
         
-        // Update details
-        document.getElementById('humidity').textContent = `${data.main.humidity}%`;
-        document.getElementById('windSpeed').textContent = `${Math.round(data.wind.speed * 3.6)} km/h`;
+        // Update humidity with animated progress bar
+        const humidityValue = data.main.humidity;
+        document.getElementById('humidity').textContent = `${humidityValue}%`;
+        setTimeout(() => {
+            document.getElementById('humidityBar').style.width = `${humidityValue}%`;
+        }, 100);
+        
+        // Update wind speed
+        const windSpeedKmh = Math.round(data.wind.speed * 3.6);
+        document.getElementById('windSpeed').textContent = `${windSpeedKmh} km/h`;
+        
+        // Update pressure
         document.getElementById('pressure').textContent = `${data.main.pressure} hPa`;
-        document.getElementById('visibility').textContent = `${(data.visibility / 1000).toFixed(1)} km`;
-        document.getElementById('cloudiness').textContent = `${data.clouds.all}%`;
+        
+        // Update visibility
+        const visibilityKm = (data.visibility / 1000).toFixed(1);
+        document.getElementById('visibility').textContent = `${visibilityKm} km`;
+        
+        // Update cloudiness with animated progress bar
+        const cloudinessValue = data.clouds.all;
+        document.getElementById('cloudiness').textContent = `${cloudinessValue}%`;
+        setTimeout(() => {
+            document.getElementById('cloudinessBar').style.width = `${cloudinessValue}%`;
+        }, 100);
         
         // Update timestamp
         const now = new Date();
-        document.getElementById('lastUpdated').textContent = `Last updated: ${now.toLocaleString()}`;
+        const timeString = now.toLocaleString('en-US', {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        document.getElementById('lastUpdated').textContent = timeString;
         
         // Change background based on weather
         updateBackground(data.weather[0].main);
         
-        // Show weather card (hide home screen)
+        // Show weather card with animation
         document.getElementById('weatherCard').classList.add('show');
         
         console.log('Weather data displayed successfully');
@@ -158,38 +185,45 @@ function displayWeatherData(data) {
     }
 }
 
+// Animate number counting
+function animateNumber(elementId, start, end, duration) {
+    const element = document.getElementById(elementId);
+    const range = end - start;
+    const increment = range / (duration / 16); // 60fps
+    let current = start;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+            current = end;
+            clearInterval(timer);
+        }
+        element.textContent = Math.round(current);
+    }, 16);
+}
+
 // Update background color based on weather
 function updateBackground(condition) {
     const body = document.body;
     
-    switch(condition.toLowerCase()) {
-        case 'clear':
-            body.style.background = 'linear-gradient(135deg, #FDB99B 0%, #CF8BF3 100%)';
-            break;
-        case 'clouds':
-            body.style.background = 'linear-gradient(135deg, #A8BFDB 0%, #7C98B3 100%)';
-            break;
-        case 'rain':
-        case 'drizzle':
-            body.style.background = 'linear-gradient(135deg, #4B6CB7 0%, #182848 100%)';
-            break;
-        case 'thunderstorm':
-            body.style.background = 'linear-gradient(135deg, #141E30 0%, #243B55 100%)';
-            break;
-        case 'snow':
-            body.style.background = 'linear-gradient(135deg, #E6DADA 0%, #274046 100%)';
-            break;
-        case 'mist':
-        case 'fog':
-        case 'haze':
-            body.style.background = 'linear-gradient(135deg, #BDC3C7 0%, #2C3E50 100%)';
-            break;
-        default:
-            body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-    }
+    const gradients = {
+        'clear': 'linear-gradient(135deg, #FDB99B 0%, #CF8BF3 100%)',
+        'clouds': 'linear-gradient(135deg, #A8BFDB 0%, #7C98B3 100%)',
+        'rain': 'linear-gradient(135deg, #4B6CB7 0%, #182848 100%)',
+        'drizzle': 'linear-gradient(135deg, #4B6CB7 0%, #182848 100%)',
+        'thunderstorm': 'linear-gradient(135deg, #141E30 0%, #243B55 100%)',
+        'snow': 'linear-gradient(135deg, #E6DADA 0%, #274046 100%)',
+        'mist': 'linear-gradient(135deg, #BDC3C7 0%, #2C3E50 100%)',
+        'fog': 'linear-gradient(135deg, #BDC3C7 0%, #2C3E50 100%)',
+        'haze': 'linear-gradient(135deg, #BDC3C7 0%, #2C3E50 100%)',
+        'smoke': 'linear-gradient(135deg, #606c88 0%, #3f4c6b 100%)'
+    };
+    
+    const gradient = gradients[condition.toLowerCase()] || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    body.style.background = gradient;
 }
 
-// Show error message
+// Show error message with animation
 function showError(message) {
     console.log('Showing error:', message);
     const errorMessage = document.getElementById('errorMessage');
